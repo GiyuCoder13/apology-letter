@@ -177,9 +177,24 @@
                     An Apology Letter From Purav 🥺
                 </h1>
 
-                <p class="font-caveat text-2xl text-stone-600 mb-6">
+                <p class="font-caveat text-2xl text-stone-600 mb-4">
                     I am really sorry Pranjal...
                 </p>
+
+                <div class="mb-6 flex flex-col items-center gap-2">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-rose-900/20 bg-rose-900/10 px-4 py-1.5 text-xs sm:text-sm font-semibold text-burgundy">
+                        Waiting since 16 Oct, 10:19 PM ⏳
+                    </span>
+                    <div class="w-full max-w-sm rounded-2xl border border-amber-300/70 bg-white/75 px-4 py-3 shadow-inner">
+                        <p class="font-poppins text-xs uppercase tracking-widest text-stone-500 mb-2">Time elapsed</p>
+                        <div id="elapsed-timer" class="grid grid-cols-4 gap-2 text-burgundy-dark">
+                            <div><div id="elapsed-days" class="font-playfair text-2xl sm:text-3xl font-bold tabular-nums">0</div><div class="text-[10px] sm:text-xs uppercase tracking-wide text-stone-500">Days</div></div>
+                            <div><div id="elapsed-hours" class="font-playfair text-2xl sm:text-3xl font-bold tabular-nums">00</div><div class="text-[10px] sm:text-xs uppercase tracking-wide text-stone-500">Hours</div></div>
+                            <div><div id="elapsed-minutes" class="font-playfair text-2xl sm:text-3xl font-bold tabular-nums">00</div><div class="text-[10px] sm:text-xs uppercase tracking-wide text-stone-500">Minutes</div></div>
+                            <div><div id="elapsed-seconds" class="font-playfair text-2xl sm:text-3xl font-bold tabular-nums">00</div><div class="text-[10px] sm:text-xs uppercase tracking-wide text-stone-500">Seconds</div></div>
+                        </div>
+                    </div>
+                </div>
                 
                 <button onclick="openAnimatedLetter()" class="group relative inline-flex items-center justify-center gap-3 bg-burgundy hover:bg-burgundy-light text-amber-100 font-playfair font-bold py-4 px-9 rounded-2xl shadow-xl transition-all duration-300 transform hover:-translate-y-1 active:scale-95 text-lg sm:text-xl border-2 border-amber-300/40 mt-2 overflow-hidden">
                     <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
@@ -253,6 +268,32 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
+        // Live elapsed timer: October 16, 2026 at 10:19 PM IST (UTC+05:30).
+        const waitingStartTime = new Date('2026-10-16T22:19:00+05:30').getTime();
+
+        function updateElapsedTimer() {
+            const elapsedSeconds = Math.max(0, Math.floor((Date.now() - waitingStartTime) / 1000));
+            const days = Math.floor(elapsedSeconds / 86400);
+            const hours = Math.floor((elapsedSeconds % 86400) / 3600);
+            const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+            const seconds = elapsedSeconds % 60;
+
+            const daysEl = document.getElementById('elapsed-days');
+            const hoursEl = document.getElementById('elapsed-hours');
+            const minutesEl = document.getElementById('elapsed-minutes');
+            const secondsEl = document.getElementById('elapsed-seconds');
+
+            if (daysEl && hoursEl && minutesEl && secondsEl) {
+                daysEl.textContent = String(days);
+                hoursEl.textContent = String(hours).padStart(2, '0');
+                minutesEl.textContent = String(minutes).padStart(2, '0');
+                secondsEl.textContent = String(seconds).padStart(2, '0');
+            }
+        }
+
+        updateElapsedTimer();
+        setInterval(updateElapsedTimer, 1000);
+
         // BACKGROUND FLOATING PLAIN TEXTS & EMOJIS GENERATOR
         function createFloatingItems() {
             const container = document.getElementById('floating-container');
