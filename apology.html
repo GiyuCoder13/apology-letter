@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Apology For My Pranjal 🥺❤️</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Confetti JS -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            DEFAULT: '#4a080c',
+                            dark: '#2e0306',
+                            light: '#6c1016',
+                            accent: '#8d1720',
+                            gold: '#f3c669'
+                        }
+                    },
+                    fontFamily: {
+                        playfair: ['"Playfair Display"', 'serif'],
+                        caveat: ['"Caveat"', 'cursive'],
+                        poppins: ['"Poppins"', 'sans-serif'],
+                        pacifico: ['"Pacifico"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: radial-gradient(circle at center, #5e0d13 0%, #360408 70%, #200204 100%);
+            color: #2c1810;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .paper-texture {
+            background-color: #fdfbf7;
+            background-image: 
+                radial-gradient(#e5dec9 0.75px, transparent 0.75px), 
+                radial-gradient(#e5dec9 0.75px, #fdfbf7 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        /* Envelope Flap Polygon & 3D Effect */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope-flap {
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-top: 120px solid #f4e8da;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top center;
+            z-index: 30;
+        }
+
+        @media (min-width: 640px) {
+            .envelope-flap {
+                border-left: 250px solid transparent;
+                border-right: 250px solid transparent;
+                border-top: 150px solid #f4e8da;
+            }
+        }
+
+        .open-flap {
+            transform: rotateX(180deg);
+            z-index: 5;
+        }
+
+        /* Cursor animation for handwriting/typing effect */
+        .typing-cursor::after {
+            content: '✏️';
+            animation: blink 0.6s infinite alternate;
+            margin-left: 4px;
+            display: inline-block;
+        }
+        @keyframes blink {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0.3; transform: translateY(-3px); }
+        }
+
+        /* Floating elements animation */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.85;
+            }
+            90% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateY(-15vh) rotate(360deg) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        .floating-item {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            user-select: none;
+            animation: floatUp linear infinite;
+            will-change: transform, opacity;
+        }
+
+        /* Custom scrollbar for letter paper */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1e9d2;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #a33840;
+            border-radius: 10px;
+        }
+
+        /* Stamp glow effect */
+        .wax-seal {
+            background: radial-gradient(circle at 30% 30%, #a8232b, #5e0d13);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-3 sm:p-6 relative selection:bg-rose-900 selection:text-white min-h-screen">
+
+    <!-- FLOATING PLAIN TEXT & EMOJIS BACKGROUND LAYER -->
+    <div id="floating-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="max-w-xl w-full z-10 my-auto relative">
+        
+        <!-- STEP 1: PHYSICAL ENVELOPE INTRO -->
+        <div id="envelope-card" class="bg-[#fcf8f2] border-4 border-burgundy-light rounded-3xl p-6 sm:p-10 shadow-2xl paper-texture relative text-center overflow-hidden transition-all duration-700 envelope-wrapper border-double">
+            
+            <!-- Envelope Triangular Top Flap -->
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-30 pointer-events-none">
+                <div id="flap-element" class="envelope-flap relative flex justify-center">
+                    <!-- Wax Seal Badge with Heart -->
+                    <div class="absolute -top-[100px] sm:-top-[125px] left-1/2 transform -translate-x-1/2 w-14 h-14 sm:w-16 sm:h-16 wax-seal text-amber-200 rounded-full flex items-center justify-center text-2xl sm:text-3xl border-2 border-amber-300/60 transition-transform duration-300 hover:scale-110 pointer-events-auto cursor-pointer" onclick="openAnimatedLetter()">
+                        <i class="fa-solid fa-heart animate-pulse text-rose-300"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Envelope Header Info -->
+            <div class="pt-16 sm:pt-20">
+                <div class="inline-flex items-center gap-2 bg-rose-900/10 text-burgundy font-bold text-xs sm:text-sm px-4 py-1.5 rounded-full uppercase tracking-wider mb-5 border border-rose-900/20 shadow-sm">
+                    <span>🔒 SINCERE APOLOGY</span>
+                    <span class="text-rose-500">•</span>
+                    <span>FOR PRANJAL</span>
+                </div>
+                
+                <h1 class="font-playfair text-3xl sm:text-5xl font-extrabold text-burgundy-dark mb-4 tracking-tight leading-tight">
+                    An Apology Letter From Purav 🥺
+                </h1>
+
+                <p class="font-caveat text-2xl text-stone-600 mb-6">
+                    I am really sorry Pranjal...
+                </p>
+                
+                <button onclick="openAnimatedLetter()" class="group relative inline-flex items-center justify-center gap-3 bg-burgundy hover:bg-burgundy-light text-amber-100 font-playfair font-bold py-4 px-9 rounded-2xl shadow-xl transition-all duration-300 transform hover:-translate-y-1 active:scale-95 text-lg sm:text-xl border-2 border-amber-300/40 mt-2 overflow-hidden">
+                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
+                    <span>Unseal & Read Letter ✉️</span>
+                </button>
+
+                <p class="text-stone-400 text-xs mt-4 font-poppins">Tap to break the seal & reveal the apology letter</p>
+            </div>
+        </div>
+
+        <!-- STEP 2: ANIMATED LETTER CONTAINER (Hidden Initially) -->
+        <div id="letter-card" class="hidden bg-[#fcf8f2] border-4 border-burgundy-light rounded-3xl p-5 sm:p-8 shadow-2xl paper-texture relative text-left transition-all duration-500">
+            
+            <!-- Letter Top Bar Header -->
+            <div class="flex items-center justify-between border-b-2 border-stone-300/80 pb-4 mb-5">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-full bg-rose-200 text-burgundy flex items-center justify-center text-xl font-bold shadow-inner border border-rose-300">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-playfair font-bold text-burgundy-dark text-lg sm:text-xl leading-snug">Purav's Apology</h2>
+                        <p class="font-poppins text-xs text-stone-500 font-medium">Written with pure sincerity for Pranjal 💖</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-300 inline-block">
+                        <i class="fa-solid fa-heart text-rose-500 mr-1"></i> From Purav
+                    </span>
+                </div>
+            </div>
+
+            <!-- ANIMATED TEXT PAPER AREA -->
+            <div class="bg-white/90 border-2 border-amber-200/80 p-5 sm:p-7 rounded-2xl shadow-inner mb-6 min-h-[320px] max-h-[60vh] overflow-y-auto custom-scroll relative">
+                <div id="letter-text-container" class="font-caveat text-2xl sm:text-3xl text-stone-800 leading-relaxed typing-cursor whitespace-pre-line tracking-wide"></div>
+            </div>
+
+            <!-- FORGIVENESS BUTTONS (Appears after typing finishes) -->
+            <div id="forgiveness-section" class="hidden text-center pt-3 border-t-2 border-stone-300/80">
+                <p class="font-caveat text-3xl text-burgundy font-bold mb-4 animate-bounce">Maaf krdo pranjal jiiii? 🥺🙏</p>
+                
+                <div id="angry-warning" class="hidden text-rose-800 font-caveat text-2xl mb-4 bg-rose-100/90 p-3 rounded-2xl border-2 border-rose-300 animate-pulse shadow-sm">
+                    😠 Naughty! You cannot click No! Try the other button! 💖
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 relative min-h-[60px]">
+                    <button onclick="acceptApology()" class="bg-burgundy hover:bg-burgundy-light text-amber-100 font-playfair font-bold py-3.5 px-8 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5 text-lg border border-amber-300/40 flex-1 flex items-center justify-center gap-2">
+                        <span>Maaf Kiya! 💕</span>
+                    </button>
+                    <button id="btn-no" onmouseover="dodgeNoButton()" onclick="rejectApology()" class="bg-stone-300 hover:bg-stone-400 text-stone-700 font-playfair font-bold py-3.5 px-8 rounded-2xl shadow transition text-lg flex-1 relative border border-stone-400">
+                        No 😤
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUCCESS MESSAGE -->
+            <div id="success-box" class="hidden text-center py-6 bg-rose-50/80 rounded-2xl border-2 border-rose-200 p-4">
+                <div class="w-20 h-20 bg-rose-200 text-burgundy rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner animate-bounce border-2 border-rose-300">
+                    🥰
+                </div>
+                <h3 class="font-playfair text-3xl sm:text-4xl font-extrabold text-burgundy-dark mb-3">Yay! Thank You! 🎉</h3>
+                <p class="font-caveat text-2xl sm:text-3xl text-stone-800 leading-relaxed mb-4 font-semibold">
+                    You are the sweetest ever, Pranjal! Ice cream + First Way Cafe treat is 100% on me! ☕🍦✨
+                </p>
+                <div class="inline-block bg-burgundy text-amber-100 font-playfair px-6 py-2 rounded-full text-base font-bold shadow">
+                    Luvvvvvv yaaaaaa • Yours Purav 💕
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // BACKGROUND FLOATING PLAIN TEXTS & EMOJIS GENERATOR
+        function createFloatingItems() {
+            const container = document.getElementById('floating-container');
+            
+            // Plain text items & Emojis (No broken heart emojis)
+            const plainTexts = ['soryyyyy', 'SORYYYY', 'maaf krdo', 'pls forgive me', 'PLEASE', 'SORRY', 'sorry jiii'];
+            const emojis = ['🥺', '😭', '🙏', '🍦', '☕', '📲', '✨', '💖', '💌', '❤️'];
+
+            function spawnItem() {
+                const item = document.createElement('div');
+                item.className = 'floating-item font-caveat font-bold drop-shadow';
+                
+                // Randomly decide between Plain Text or Emoji
+                const isText = Math.random() > 0.4;
+                
+                if (isText) {
+                    const randomText = plainTexts[Math.floor(Math.random() * plainTexts.length)];
+                    item.innerText = randomText;
+                    item.style.color = '#fef3c7'; // Warm soft golden color
+                    item.style.fontSize = (Math.random() * 10 + 22) + 'px'; // 22px to 32px
+                    item.style.opacity = '0.75';
+                } else {
+                    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                    item.innerText = randomEmoji;
+                    item.style.fontSize = (Math.random() * 16 + 24) + 'px'; // 24px to 40px
+                    item.style.opacity = '0.85';
+                }
+
+                // Random positioning and duration
+                item.style.left = Math.random() * 92 + 2 + 'vw';
+                const duration = Math.random() * 6 + 7; // 7s to 13s
+                item.style.animationDuration = duration + 's';
+                item.style.animationDelay = (Math.random() * 2) + 's';
+
+                container.appendChild(item);
+
+                // Clean up DOM after animation completes
+                setTimeout(() => {
+                    item.remove();
+                }, (duration + 2) * 1000);
+            }
+
+            // Initial batch
+            for (let i = 0; i < 20; i++) {
+                setTimeout(spawnItem, i * 300);
+            }
+
+            // Continuous loop
+            setInterval(spawnItem, 500);
+        }
+
+        // Initialize background animations on start
+        window.addEventListener('DOMContentLoaded', createFloatingItems);
+
+        // CUSTOM LETTER TEXT (Purav's exact message)
+        const fullLetterText = 
+            "First of all soryyyyy pranjalllllll extremely for not seeing your messages 🥺\n\n" +
+            "I swear it wasnt cuz of ego or anything! It was just ki call hua tha tb charge low hogyi thi and maine charge pr rkha tha. Just bich mei liya, that too to check insta and react ur reels 📲\n\n" +
+            "Dimaag se hi nikal gya tha ki wp check krna and jb check kiya it was already late. On purpose nhi tha geniuenly galti se reh gya tha! 😭\n\n" +
+            "But I promise abse I wont reply late to your message, in seconds reply dunga! ⚡\n\n" +
+            "Also ye apology letter and icecream toh hai hi 🍦, with this a First Way Cafe treat meri trf se ☕🥟 without forgetting!\n\n" +
+            "Maaf krdo pranjal jiiii, aage se aise bilkul nhi hoga! 🙏❤️\n\n" +
+            "Luvvvvvv yaaaaaa,\n" +
+            "Yours,\n" +
+            "Purav ✨";
+
+        // LETTER WRITING & FLAP ANIMATION LOGIC
+        let typingStarted = false;
+
+        function openAnimatedLetter() {
+            if (typingStarted) return;
+            typingStarted = true;
+
+            const flap = document.getElementById('flap-element');
+            if (flap) flap.classList.add('open-flap');
+
+            // Wait for envelope flap to rotate open before swapping cards
+            setTimeout(() => {
+                const envCard = document.getElementById('envelope-card');
+                envCard.style.opacity = '0';
+                envCard.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    envCard.classList.add('hidden');
+                    const letterCard = document.getElementById('letter-card');
+                    letterCard.classList.remove('hidden');
+
+                    const container = document.getElementById('letter-text-container');
+                    let index = 0;
+
+                    // Line by line / Character by character typing effect
+                    function typeNextChar() {
+                        if (index < fullLetterText.length) {
+                            container.textContent += fullLetterText.charAt(index);
+                            index++;
+
+                            // Scroll container down automatically as text types
+                            const scrollArea = container.parentElement;
+                            scrollArea.scrollTop = scrollArea.scrollHeight;
+
+                            // Slightly slower speed for punctuation & linebreaks for realistic handwriting feel
+                            const currentChar = fullLetterText.charAt(index - 1);
+                            let delay = 32;
+                            if (currentChar === '\n') delay = 250;
+                            else if (currentChar === '!' || currentChar === '🥺' || currentChar === '😭') delay = 180;
+
+                            setTimeout(typeNextChar, delay);
+                        } else {
+                            // Typing complete
+                            container.classList.remove('typing-cursor');
+                            document.getElementById('forgiveness-section').classList.remove('hidden');
+                            
+                            // Scroll down to forgiveness section
+                            setTimeout(() => {
+                                document.getElementById('forgiveness-section').scrollIntoView({ behavior: 'smooth' });
+                            }, 300);
+                        }
+                    }
+
+                    setTimeout(typeNextChar, 300);
+                }, 300);
+            }, 600);
+        }
+
+        // Dodge 'No' Button logic
+        function dodgeNoButton() {
+            const btnNo = document.getElementById('btn-no');
+            // Generate random translated position
+            const randomX = (Math.random() - 0.5) * 220;
+            const randomY = (Math.random() - 0.5) * 120;
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            btnNo.style.transition = 'transform 0.2s ease-out';
+            
+            const warning = document.getElementById('angry-warning');
+            warning.classList.remove('hidden');
+        }
+
+        function rejectApology() {
+            dodgeNoButton();
+        }
+
+        // Acceptance Confetti Celebration
+        function acceptApology() {
+            document.getElementById('forgiveness-section').classList.add('hidden');
+            const successBox = document.getElementById('success-box');
+            successBox.classList.remove('hidden');
+
+            // Burst confetti cannon multiple times
+            const duration = 3 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 7,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#f43f5e', '#fb7185', '#f3c669', '#ffffff']
+                });
+                confetti({
+                    particleCount: 7,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#f43f5e', '#fb7185', '#f3c669', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+
+            // Center confetti burst
+            confetti({
+                particleCount: 120,
+                spread: 100,
+                origin: { y: 0.6 }
+            });
+        }
+    </script>
+</body>
+</html>
